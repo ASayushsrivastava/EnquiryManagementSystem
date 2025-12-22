@@ -1,3 +1,44 @@
 import { Routes } from '@angular/router';
+import { Home } from './pages/home/home';
+import { AdminDashboard } from './pages/admin-dashboard/admin-dashboard';
+import { AdminList } from './pages/admin-list/admin-list';
+import { EnquiryCategory } from './pages/enquiry-category/enquiry-category';
+import { EnquiryStatus } from './pages/enquiry-status/enquiry-status';
+import { Login } from './pages/login/login';
+import { SubmitForm } from './pages/submit-form/submit-form';
 
-export const routes: Routes = [];
+export const routes: Routes = [
+  {
+    path: '',
+    redirectTo: 'home',
+    pathMatch: 'full',
+  },
+  {
+    path: 'home',
+    component: Home,
+  },
+  {
+    path: 'dashboard',
+    component: AdminDashboard,
+  },
+  {
+    path: 'list',
+    component: AdminList,
+  },
+  {
+    path: 'category-enquiry',
+    component: EnquiryCategory,
+  },
+  {
+    path: 'status-enquiry',
+    component: EnquiryStatus,
+  },
+  {
+    path: 'login',
+    component: Login,
+  },
+  {
+    path: 'submit',
+    component: SubmitForm,
+  },
+];

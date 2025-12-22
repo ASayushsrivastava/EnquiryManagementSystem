@@ -1,0 +1,82 @@
+<div class="form-container">
+  <h2>Submit Enquiry</h2>
+
+  <form (ngSubmit)="submitForm()">
+    <!-- Customer Name -->
+    <div class="form-group">
+      <label>Customer Name</label>
+      <input type="text" [(ngModel)]="enquiry.customerName" name="customerName" required />
+    </div>
+
+    <!-- Email -->
+    <div class="form-group">
+      <label>Email</label>
+      <input type="email" [(ngModel)]="enquiry.customerEmail" name="customerEmail" required />
+    </div>
+
+    <!-- Phone -->
+    <div class="form-group">
+      <label>Phone</label>
+      <input type="text" [(ngModel)]="enquiry.customerPhone" name="customerPhone" />
+    </div>
+
+    <!-- Enquiry Type -->
+    <div class="form-group">
+      <label>Enquiry Type</label>
+      <input type="text" [(ngModel)]="enquiry.enquiryType" name="enquiryType" />
+    </div>
+
+    <!-- Category -->
+    <div class="form-group">
+      <label>Category</label>
+      <select title="category" [(ngModel)]="enquiry.categoryId" name="categoryId">
+        <option value="0">Select Category</option>
+        @for (cat of categories; track cat.categoryId) {
+        <option [value]="cat.categoryId">
+          {{ cat.categoryName }}
+        </option>
+        }
+      </select>
+    </div>
+
+    <!-- Status -->
+    <div class="form-group">
+      <label>Status</label>
+      <select title="status" [(ngModel)]="enquiry.statusId" name="statusId">
+        <option value="0">Select Status</option>
+        @for (st of statuses; track st.statusId) {
+        <option [value]="st.statusId">
+          {{ st.statusName }}
+        </option>
+        }
+      </select>
+    </div>
+
+    <!-- Message -->
+    <div class="form-group">
+      <label>Message</label>
+      <textarea rows="3" [(ngModel)]="enquiry.message" name="message"></textarea>
+    </div>
+
+    <!-- Follow-up Date -->
+    <div class="form-group">
+      <label>Follow-up Date</label>
+      <input type="datetime-local" [(ngModel)]="enquiry.followUpDate" name="followUpDate" />
+    </div>
+
+    <!-- Converted -->
+    <div class="form-group checkbox">
+      <input type="checkbox" [(ngModel)]="enquiry.isConverted" name="isConverted" />
+      <label>Converted</label>
+    </div>
+
+    <!-- Feedback -->
+    <div class="form-group">
+      <label>Feedback</label>
+      <textarea rows="2" [(ngModel)]="enquiry.feedback" name="feedback"></textarea>
+    </div>
+
+    <!-- Submit -->
+    <button type="submit" class="submit-btn">Submit Enquiry</button>
+  </form>
+</div>

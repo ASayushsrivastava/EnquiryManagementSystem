@@ -1,0 +1,27 @@
+<h2>Admin Enquiry List</h2>
+
+<table border="1" cellpadding="6">
+  <tr>
+    <th>Name</th>
+    <th>Email</th>
+    <th>Status</th>
+  </tr>
+
+  @for (e of enquiries; track e.enquiryId) {
+  <tr>
+    <td>{{ e.customerName }}</td>
+    <td>{{ e.customerEmail }}</td>
+    <td>
+      <select
+        title="status"
+        [value]="e.statusId"
+        (change)="changeStatus(e, $any($event.target).value)"
+      >
+        <option value="1">New</option>
+        <option value="2">In Progress</option>
+        <option value="3">Closed</option>
+      </select>
+    </td>
+  </tr>
+  }
+</table>

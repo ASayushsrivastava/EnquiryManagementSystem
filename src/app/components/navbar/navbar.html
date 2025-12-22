@@ -1,0 +1,20 @@
+<nav class="navbar">
+  <div class="left">
+    <span class="brand">Enquiry System</span>
+
+    <a routerLink="/home">Home</a>
+    <a routerLink="/submit">Submit</a>
+
+    @if (auth.isAdmin()) {
+    <a routerLink="/list">Admin List</a>
+    }
+  </div>
+
+  <div class="right">
+    @if (!auth.isLoggedIn()) {
+    <a routerLink="/login">Login</a>
+    } @else {
+    <button (click)="logout()">Logout</button>
+    }
+  </div>
+</nav>
