@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { AuthService } from '../../services/authservice';
 
@@ -9,7 +9,11 @@ import { AuthService } from '../../services/authservice';
 export class AdminList implements OnInit {
   enquiries: any[] = [];
 
-  constructor(private auth: AuthService, private http: HttpClient) {}
+  constructor(
+    private auth: AuthService,
+    private http: HttpClient,
+    private cdr: ChangeDetectorRef
+  ) {}
 
   ngOnInit() {
     if (!this.auth.isAdmin()) {
@@ -20,10 +24,11 @@ export class AdminList implements OnInit {
     this.http
       .get<any>('https://api.freeprojectapi.com/api/Enquiry/get-enquiries')
       .subscribe((res) => {
-        console.log('API response:', res);
-
         if (res.result && res.data) {
           this.enquiries = res.data;
+
+          // ⭐ TELL ANGULAR TO UPDATE THE UI
+          this.cdr.detectChanges();
         }
       });
   }
