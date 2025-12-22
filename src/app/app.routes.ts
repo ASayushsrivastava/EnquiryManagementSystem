@@ -23,7 +23,18 @@ export const routes: Routes = [
   },
   {
     path: 'list',
-    component: AdminList,
+    component: AdminDashboard, //  PARENT
+    children: [
+      {
+        path: '',
+        redirectTo: 'manage',
+        pathMatch: 'full',
+      },
+      {
+        path: 'manage',
+        component: AdminList, //  CHILD
+      },
+    ],
   },
   {
     path: 'category-enquiry',

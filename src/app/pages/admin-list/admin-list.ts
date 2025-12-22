@@ -27,7 +27,6 @@ export class AdminList implements OnInit {
         if (res.result && res.data) {
           this.enquiries = res.data;
 
-          // ⭐ TELL ANGULAR TO UPDATE THE UI
           this.cdr.detectChanges();
         }
       });

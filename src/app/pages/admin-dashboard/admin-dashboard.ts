@@ -1,11 +1,14 @@
 import { Component } from '@angular/core';
+import { RouterOutlet } from '@angular/router';
 
 @Component({
-  selector: 'app-admin-dashboard',
-  imports: [],
-  templateUrl: './admin-dashboard.html',
-  styleUrl: './admin-dashboard.css',
-})
-export class AdminDashboard {
+  standalone: true,
+  imports: [RouterOutlet],
+  template: `
+    <h2>Admin Dashboard</h2>
 
-}
+    <!-- Child routes will load here -->
+    <router-outlet></router-outlet>
+  `,
+})
+export class AdminDashboard {}
