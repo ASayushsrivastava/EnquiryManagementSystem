@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, inject, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Enquiry } from '../../models/enquiry.model';
 import { Category } from '../../models/category.model';
@@ -33,8 +33,6 @@ export class SubmitForm implements OnInit {
 
   private masterService = inject(MasterService);
 
-  private cdr = inject(ChangeDetectorRef);
-
   ngOnInit(): void {
     this.setDefaultDates();
     this.loadCategories();
@@ -42,41 +40,34 @@ export class SubmitForm implements OnInit {
   }
 
   setDefaultDates() {
-    const now = new Date().toISOString().substring(0, 16);
-    this.enquiry.enquiryDate = now;
-    this.enquiry.followUpDate = now;
+    this.enquiry.enquiryDate = new Date().toISOString().substring(0, 16);
   }
+
+  /* LOAD CATEGORIES */
 
   loadCategories() {
-    this.masterService.getCategories().subscribe({
-      next: (res) => {
-        if (res.result && res.data) {
-          this.categories = res.data.filter((c) => c.isActive);
-          // FORCE UI UPDATE
-          this.cdr.detectChanges();
-        }
-      },
-      error: (err) => console.error('Category API error', err),
+    this.masterService.getCategories().subscribe((list: Category[]) => {
+      this.categories = list.filter((c) => c.isActive);
     });
   }
+
+  /* LOAD STATUSES */
 
   loadStatuses() {
-    this.masterService.getStatuses().subscribe({
-      next: (res) => {
-        if (res.result && res.data) {
-          this.statuses = res.data.filter((s) => s.isActive);
-
-          // FORCE UI UPDATE
-          this.cdr.detectChanges();
-        }
-      },
-      error: (err) => console.error('Status API error', err),
+    this.masterService.getStatuses().subscribe((list: Status[]) => {
+      this.statuses = list.filter((s) => s.isActive);
     });
   }
 
+  /* SUBMIT FORM */
+
   submitForm() {
-    this.masterService.createEnquiry(this.enquiry).then((res) => {
-      alert(res.message || 'Submitted');
+    this.masterService.createEnquiry(this.enquiry).subscribe((res) => {
+      if (res.result) {
+        alert('Enquiry submitted successfully');
+      } else {
+        alert(res.message || 'Submission failed');
+      }
     });
   }
 }

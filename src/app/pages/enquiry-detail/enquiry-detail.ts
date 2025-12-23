@@ -1,20 +1,21 @@
 import { ChangeDetectorRef, Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
 import { AuthService } from '../../services/authservice';
+import { Enquiry } from '../../models/enquiry.model';
+import { MasterService } from '../../services/masterservice';
 
 @Component({
   standalone: true,
   templateUrl: './enquiry-detail.html',
 })
 export class EnquiryDetail implements OnInit {
-  enquiry: any = null;
+  enquiry: Enquiry | null = null;
 
   private route = inject(ActivatedRoute);
   private router = inject(Router);
-  private http = inject(HttpClient);
-  private cdr = inject(ChangeDetectorRef);
   private auth = inject(AuthService);
+  private masterService = inject(MasterService);
+  private cdr = inject(ChangeDetectorRef);
 
   ngOnInit() {
     if (!this.auth.isAdmin()) {
@@ -26,23 +27,21 @@ export class EnquiryDetail implements OnInit {
     this.route.params.subscribe((params) => {
       const id = params['id'];
       if (id) {
-        this.loadEnquiry(id);
+        this.loadEnquiry(+id);
       }
     });
   }
 
   loadEnquiry(id: number) {
-    this.http
-      .get<any>(`https://api.freeprojectapi.com/api/Enquiry/get-enquiry/${id}`)
-      .subscribe((res) => {
-        if (res.result && res.data) {
-          this.enquiry = res.data;
-          this.cdr.detectChanges();
-        } else {
-          alert('Enquiry not found');
-          this.router.navigate(['/list/manage']);
-        }
-      });
+    this.masterService.getEnquiryById(id).subscribe((data) => {
+      if (data) {
+        this.enquiry = data;
+        this.cdr.detectChanges();
+      } else {
+        alert('Enquiry not found');
+        this.router.navigate(['/list/manage']);
+      }
+    });
   }
 
   goBack() {
@@ -50,6 +49,8 @@ export class EnquiryDetail implements OnInit {
   }
 
   goToEdit() {
-    this.router.navigate(['/list/manage', this.enquiry.enquiryId, 'edit']);
+    if (this.enquiry) {
+      this.router.navigate(['/list/manage', this.enquiry.enquiryId, 'edit']);
+    }
   }
 }

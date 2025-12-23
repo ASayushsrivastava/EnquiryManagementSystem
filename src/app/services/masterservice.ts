@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, map } from 'rxjs';
 import { ApiResponse } from '../models/api-response.model';
 import { Category } from '../models/category.model';
 import { Status } from '../models/status.model';
+import { Enquiry } from '../models/enquiry.model';
 
 @Injectable({
   providedIn: 'root',
@@ -13,24 +14,47 @@ export class MasterService {
 
   constructor(private http: HttpClient) {}
 
-  // GET Categories
-  getCategories(): Observable<ApiResponse<Category[]>> {
-    return this.http.get<ApiResponse<Category[]>>(`${this.baseUrl}/get-categories`);
+  /* CATEGORIES */
+
+  getCategories(): Observable<Category[]> {
+    return this.http
+      .get<ApiResponse<Category[]>>(`${this.baseUrl}/get-categories`)
+      .pipe(map((res) => res.data ?? []));
   }
 
-  // GET Statuses
-  getStatuses(): Observable<ApiResponse<Status[]>> {
-    return this.http.get<ApiResponse<Status[]>>(`${this.baseUrl}/get-statuses`);
+  /* STATUSES */
+
+  getStatuses(): Observable<Status[]> {
+    return this.http
+      .get<ApiResponse<Status[]>>(`${this.baseUrl}/get-statuses`)
+      .pipe(map((res) => res.data ?? []));
   }
 
-  createEnquiry(data: any) {
-    return fetch('https://api.freeprojectapi.com/api/Enquiry/create-enquiry', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data),
-    }).then((res) => res.json());
+  /* ENQUIRIES */
+
+  getEnquiries(): Observable<Enquiry[]> {
+    return this.http
+      .get<ApiResponse<Enquiry[]>>(`${this.baseUrl}/get-enquiries`)
+      .pipe(map((res) => res.data ?? []));
   }
-  // createCategory(data: any) {}
-  // updateCategory(id: number, data: any) {}
-  // deleteCategory(id: number) {}
+
+  getEnquiryById(id: number): Observable<Enquiry | null> {
+    return this.http
+      .get<ApiResponse<Enquiry>>(`${this.baseUrl}/get-enquiry/${id}`)
+      .pipe(map((res) => res.data ?? null));
+  }
+
+  createEnquiry(data: Enquiry): Observable<ApiResponse<any>> {
+    return this.http.post<ApiResponse<any>>(`${this.baseUrl}/create-enquiry`, data);
+  }
+
+  updateEnquiry(id: number, data: Enquiry): Observable<ApiResponse<any>> {
+    return this.http.put<ApiResponse<any>>(`${this.baseUrl}/update-enquiry/${id}`, data);
+  }
+
+  filterEnquiries(payload: any): Observable<Enquiry[]> {
+    return this.http
+      .post<ApiResponse<{ items: Enquiry[] }>>(`${this.baseUrl}/filter-enquiries`, payload)
+      .pipe(map((res) => res.data?.items ?? []));
+  }
 }

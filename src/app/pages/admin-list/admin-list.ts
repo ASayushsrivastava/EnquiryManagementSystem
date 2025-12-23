@@ -8,8 +8,10 @@ import {
   inject,
 } from '@angular/core';
 import { ActivatedRoute, Router, RouterOutlet } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
 import { AuthService } from '../../services/authservice';
+import { Status } from '../../models/status.model';
+import { Enquiry } from '../../models/enquiry.model';
+import { MasterService } from '../../services/masterservice';
 
 @Component({
   standalone: true,
@@ -17,11 +19,12 @@ import { AuthService } from '../../services/authservice';
   templateUrl: './admin-list.html',
 })
 export class AdminList implements OnInit {
-  enquiries: any[] = [];
+  enquiries: Enquiry[] = [];
+  statuses: Status[] = [];
   selectedStatusId: number | null = null;
 
   private auth = inject(AuthService);
-  private http = inject(HttpClient);
+  private masterService = inject(MasterService);
   private router = inject(Router);
   private route = inject(ActivatedRoute);
   private cdr = inject(ChangeDetectorRef);
@@ -36,27 +39,16 @@ export class AdminList implements OnInit {
       return;
     }
 
-    this.http
-      .get<any>('https://api.freeprojectapi.com/api/Enquiry/get-enquiries')
-      .subscribe((res) => {
-        if (res.result && res.data) {
-          this.enquiries = res.data;
-          this.cdr.detectChanges();
-        }
-      });
+    this.loadEnquiries();
+    this.loadStatuses();
 
-    // query param
     this.route.queryParams.subscribe((params) => {
       this.selectedStatusId = params['statusId'] ? Number(params['statusId']) : null;
     });
-
-    this.route.params.subscribe((params) => {
-      const enquiryId = params['id'];
-      console.log('Route param ID:', enquiryId);
-    });
   }
 
-  // route param
+  /* NAVIGATION */
+
   openEnquiry(id: number) {
     this.router.navigate(['/list/manage', id]);
   }
@@ -66,10 +58,42 @@ export class AdminList implements OnInit {
   }
 
   refreshList() {
-    alert('Refresh called from parent!');
+    this.loadEnquiries();
   }
 
-  changeStatus(enquiry: any, statusId: number) {
-    enquiry.statusId = +statusId;
+  /* DATA LOAD */
+
+  loadEnquiries() {
+    this.masterService.getEnquiries().subscribe((list: Enquiry[]) => {
+      this.enquiries = list;
+      this.cdr.detectChanges();
+    });
+  }
+
+  loadStatuses() {
+    this.masterService.getStatuses().subscribe((list: Status[]) => {
+      this.statuses = list.filter((s) => s.isActive);
+      this.cdr.detectChanges();
+    });
+  }
+
+  onStatusFilter(event: any) {
+    const statusId = event.target.value;
+
+    if (!statusId) {
+      this.loadEnquiries();
+      return;
+    }
+
+    this.masterService
+      .filterEnquiries({
+        statusId: +statusId,
+        page: 1,
+        pageSize: 20,
+      })
+      .subscribe((list: Enquiry[]) => {
+        this.enquiries = list;
+        this.cdr.detectChanges();
+      });
   }
 }

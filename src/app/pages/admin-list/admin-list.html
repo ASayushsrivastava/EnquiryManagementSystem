@@ -8,11 +8,19 @@
 <p>Current Filter Status ID: {{ selectedStatusId }}</p>
 }
 
+<label>Filter by Status</label>
+<select title="filter" (change)="onStatusFilter($event)">
+  <option value="">All</option>
+  @for (s of statuses; track s.statusId) {
+  <option [value]="s.statusId">{{ s.statusName }}</option>
+  }
+</select>
+
 <table border="1" cellpadding="6">
   <tr>
     <th>Name</th>
     <th>Email</th>
-    <th>Status</th>
+    <th>Action</th>
   </tr>
 
   @for (e of enquiries; track e.enquiryId) {
@@ -20,17 +28,6 @@
     <td>{{ e.customerName }}</td>
     <td>{{ e.customerEmail }}</td>
 
-    <td>
-      <select
-        title="status"
-        [value]="e.statusId"
-        (change)="changeStatus(e, $any($event.target).value)"
-      >
-        <option value="1">New</option>
-        <option value="2">In Progress</option>
-        <option value="3">Closed</option>
-      </select>
-    </td>
     <td><button (click)="openEnquiry(e.enquiryId)">View</button></td>
   </tr>
   }

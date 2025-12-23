@@ -13,10 +13,12 @@
   <!-- EDITABLE FIELDS -->
   <div class="form-group">
     <label>Status</label>
-    <select title="enquiry" [(ngModel)]="enquiry.statusId">
-      <option value="1">New</option>
-      <option value="2">In Progress</option>
-      <option value="3">Closed</option>
+    <select title="status" [(ngModel)]="enquiry.statusId">
+      @for (s of statuses; track s.statusId) {
+      <option [value]="s.statusId">
+        {{ s.statusName }}
+      </option>
+      }
     </select>
   </div>
 
