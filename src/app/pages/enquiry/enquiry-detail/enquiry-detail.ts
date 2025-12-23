@@ -1,8 +1,8 @@
 import { ChangeDetectorRef, Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AuthService } from '../../services/authservice';
-import { Enquiry } from '../../models/enquiry.model';
-import { MasterService } from '../../services/masterservice';
+import { AuthService } from '../../../services/auth/authservice';
+import { Enquiry } from '../../../models/enquiry.model';
+import { MasterService } from '../../../services/apis/masterservice';
 
 @Component({
   standalone: true,

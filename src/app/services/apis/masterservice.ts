@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, map } from 'rxjs';
-import { ApiResponse } from '../models/api-response.model';
-import { Category } from '../models/category.model';
-import { Status } from '../models/status.model';
-import { Enquiry } from '../models/enquiry.model';
+import { ApiResponse } from '../../models/api-response.model';
+import { Category } from '../../models/category.model';
+import { Status } from '../../models/status.model';
+import { Enquiry } from '../../models/enquiry.model';
 
 @Injectable({
   providedIn: 'root',

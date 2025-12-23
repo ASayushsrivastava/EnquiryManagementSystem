@@ -2,10 +2,10 @@ import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { ChangeDetectorRef } from '@angular/core';
-import { AuthService } from '../../services/authservice';
-import { Status } from '../../models/status.model';
-import { Enquiry } from '../../models/enquiry.model';
-import { MasterService } from '../../services/masterservice';
+import { AuthService } from '../../../services/auth/authservice';
+import { Status } from '../../../models/status.model';
+import { Enquiry } from '../../../models/enquiry.model';
+import { MasterService } from '../../../services/apis/masterservice';
 
 @Component({
   standalone: true,

@@ -3,7 +3,7 @@ import { FormsModule } from '@angular/forms';
 import { Enquiry } from '../../models/enquiry.model';
 import { Category } from '../../models/category.model';
 import { Status } from '../../models/status.model';
-import { MasterService } from '../../services/masterservice';
+import { MasterService } from '../../services/apis/masterservice';
 
 @Component({
   selector: 'app-submit-form',

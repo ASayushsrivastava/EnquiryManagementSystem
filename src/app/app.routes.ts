@@ -1,13 +1,13 @@
 import { Routes } from '@angular/router';
 import { Home } from './pages/home/home';
-import { AdminDashboard } from './pages/admin-dashboard/admin-dashboard';
-import { AdminList } from './pages/admin-list/admin-list';
-import { EnquiryCategory } from './pages/enquiry-category/enquiry-category';
+import { AdminDashboard } from './pages/admin/admin-dashboard/admin-dashboard';
+import { AdminList } from './pages/admin/admin-list/admin-list';
+import { EnquiryCategory } from './pages/enquiry/enquiry-category/enquiry-category';
 import { EnquiryStatus } from './pages/enquiry-status/enquiry-status';
 import { Login } from './pages/login/login';
 import { SubmitForm } from './pages/submit-form/submit-form';
-import { EnquiryDetail } from './pages/enquiry-detail/enquiry-detail';
-import { EnquiryEdit } from './pages/enquiry-edit/enquiry-edit';
+import { EnquiryDetail } from './pages/enquiry/enquiry-detail/enquiry-detail';
+import { EnquiryEdit } from './pages/enquiry/enquiry-edit/enquiry-edit';
 
 export const routes: Routes = [
   {

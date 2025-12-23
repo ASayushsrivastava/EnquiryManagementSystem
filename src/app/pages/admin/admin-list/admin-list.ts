@@ -8,10 +8,10 @@ import {
   inject,
 } from '@angular/core';
 import { ActivatedRoute, Router, RouterOutlet } from '@angular/router';
-import { AuthService } from '../../services/authservice';
-import { Status } from '../../models/status.model';
-import { Enquiry } from '../../models/enquiry.model';
-import { MasterService } from '../../services/masterservice';
+import { AuthService } from '../../../services/auth/authservice';
+import { Status } from '../../../models/status.model';
+import { Enquiry } from '../../../models/enquiry.model';
+import { MasterService } from '../../../services/apis/masterservice';
 
 @Component({
   standalone: true,
