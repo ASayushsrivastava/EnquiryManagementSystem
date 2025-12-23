@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, inject, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Enquiry } from '../../models/enquiry.model';
 import { Category } from '../../models/category.model';
@@ -31,7 +31,9 @@ export class SubmitForm implements OnInit {
   categories: Category[] = [];
   statuses: Status[] = [];
 
-  constructor(private masterService: MasterService) {}
+  private masterService = inject(MasterService);
+
+  private cdr = inject(ChangeDetectorRef);
 
   ngOnInit(): void {
     this.setDefaultDates();
@@ -50,6 +52,8 @@ export class SubmitForm implements OnInit {
       next: (res) => {
         if (res.result && res.data) {
           this.categories = res.data.filter((c) => c.isActive);
+          // FORCE UI UPDATE
+          this.cdr.detectChanges();
         }
       },
       error: (err) => console.error('Category API error', err),
@@ -61,6 +65,9 @@ export class SubmitForm implements OnInit {
       next: (res) => {
         if (res.result && res.data) {
           this.statuses = res.data.filter((s) => s.isActive);
+
+          // FORCE UI UPDATE
+          this.cdr.detectChanges();
         }
       },
       error: (err) => console.error('Status API error', err),

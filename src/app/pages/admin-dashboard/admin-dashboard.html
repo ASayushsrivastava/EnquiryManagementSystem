@@ -1,1 +1,7 @@
-<p>admin-dashboard works!</p>
+<h2>{{ title }}</h2>
+
+<button (click)="filterByStatus(2)">Show Status = 2</button>
+
+<button (click)="callChild()">Call Child Method</button>
+
+<router-outlet (activate)="onActivate($event)"></router-outlet>

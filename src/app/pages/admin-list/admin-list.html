@@ -1,5 +1,13 @@
 <h2>Admin Enquiry List</h2>
 
+<h3 (click)="notifyParent()">
+  {{ pageTitle }}
+</h3>
+
+@if(selectedStatusId) {
+<p>Current Filter Status ID: {{ selectedStatusId }}</p>
+}
+
 <table border="1" cellpadding="6">
   <tr>
     <th>Name</th>
@@ -11,6 +19,7 @@
   <tr>
     <td>{{ e.customerName }}</td>
     <td>{{ e.customerEmail }}</td>
+    <td><button (click)="openEnquiry(e.enquiryId)">View</button></td>
     <td>
       <select
         title="status"

@@ -30,8 +30,6 @@ export class MasterService {
       body: JSON.stringify(data),
     }).then((res) => res.json());
   }
-
-  // (Future ready)
   // createCategory(data: any) {}
   // updateCategory(id: number, data: any) {}
   // deleteCategory(id: number) {}

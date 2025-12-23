@@ -34,6 +34,10 @@ export const routes: Routes = [
         path: 'manage',
         component: AdminList, //  CHILD
       },
+      {
+        path: 'manage/:id',
+        component: AdminList,
+      }, // route param
     ],
   },
   {
