@@ -6,6 +6,8 @@ import { EnquiryCategory } from './pages/enquiry-category/enquiry-category';
 import { EnquiryStatus } from './pages/enquiry-status/enquiry-status';
 import { Login } from './pages/login/login';
 import { SubmitForm } from './pages/submit-form/submit-form';
+import { EnquiryDetail } from './pages/enquiry-detail/enquiry-detail';
+import { EnquiryEdit } from './pages/enquiry-edit/enquiry-edit';
 
 export const routes: Routes = [
   {
@@ -25,6 +27,7 @@ export const routes: Routes = [
     path: 'list',
     component: AdminDashboard, //  PARENT
     children: [
+      // order matters
       {
         path: '',
         redirectTo: 'manage',
@@ -36,8 +39,12 @@ export const routes: Routes = [
       },
       {
         path: 'manage/:id',
-        component: AdminList,
+        component: EnquiryDetail,
       }, // route param
+      {
+        path: 'manage/:id/edit',
+        component: EnquiryEdit,
+      },
     ],
   },
   {

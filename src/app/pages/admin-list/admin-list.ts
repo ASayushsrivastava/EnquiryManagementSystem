@@ -7,12 +7,13 @@ import {
   Output,
   inject,
 } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterOutlet } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { AuthService } from '../../services/authservice';
 
 @Component({
   standalone: true,
+  imports: [RouterOutlet],
   templateUrl: './admin-list.html',
 })
 export class AdminList implements OnInit {
@@ -35,11 +36,6 @@ export class AdminList implements OnInit {
       return;
     }
 
-    // query param
-    this.route.queryParams.subscribe((params) => {
-      this.selectedStatusId = params['statusId'] ? Number(params['statusId']) : null;
-    });
-
     this.http
       .get<any>('https://api.freeprojectapi.com/api/Enquiry/get-enquiries')
       .subscribe((res) => {
@@ -48,6 +44,11 @@ export class AdminList implements OnInit {
           this.cdr.detectChanges();
         }
       });
+
+    // query param
+    this.route.queryParams.subscribe((params) => {
+      this.selectedStatusId = params['statusId'] ? Number(params['statusId']) : null;
+    });
 
     this.route.params.subscribe((params) => {
       const enquiryId = params['id'];

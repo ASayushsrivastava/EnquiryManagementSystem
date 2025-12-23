@@ -1,0 +1,38 @@
+@if (enquiry) {
+<div class="edit-container">
+  <h2>Edit Enquiry</h2>
+
+  <!-- READ ONLY INFO -->
+  <div class="readonly">
+    <p><b>Name:</b> {{ enquiry.customerName }}</p>
+    <p><b>Email:</b> {{ enquiry.customerEmail }}</p>
+    <p><b>Phone:</b> {{ enquiry.customerPhone }}</p>
+    <p><b>Message:</b> {{ enquiry.message }}</p>
+  </div>
+
+  <!-- EDITABLE FIELDS -->
+  <div class="form-group">
+    <label>Status</label>
+    <select title="enquiry" [(ngModel)]="enquiry.statusId">
+      <option value="1">New</option>
+      <option value="2">In Progress</option>
+      <option value="3">Closed</option>
+    </select>
+  </div>
+
+  <div class="form-group">
+    <label>Follow-up Date</label>
+    <input type="datetime-local" [(ngModel)]="enquiry.followUpDate" />
+  </div>
+
+  <div class="form-group">
+    <label>Feedback</label>
+    <textarea rows="4" [(ngModel)]="enquiry.feedback"></textarea>
+  </div>
+
+  <div class="actions">
+    <button class="btn primary" (click)="updateEnquiry()">Save</button>
+    <button class="btn outline" (click)="cancel()">Cancel</button>
+  </div>
+</div>
+}

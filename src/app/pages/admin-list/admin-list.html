@@ -19,7 +19,7 @@
   <tr>
     <td>{{ e.customerName }}</td>
     <td>{{ e.customerEmail }}</td>
-    <td><button (click)="openEnquiry(e.enquiryId)">View</button></td>
+
     <td>
       <select
         title="status"
@@ -31,6 +31,9 @@
         <option value="3">Closed</option>
       </select>
     </td>
+    <td><button (click)="openEnquiry(e.enquiryId)">View</button></td>
   </tr>
   }
 </table>
+
+<router-outlet></router-outlet>

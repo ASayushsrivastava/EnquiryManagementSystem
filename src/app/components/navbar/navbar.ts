@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../services/authservice';
@@ -13,7 +13,8 @@ import { AuthService } from '../../services/authservice';
 export class Navbar {
   searchText = '';
 
-  constructor(private router: Router, public auth: AuthService) {}
+  private router = inject(Router);
+  public auth = inject(AuthService);
 
   onSearch() {
     console.log('Search value:', this.searchText);

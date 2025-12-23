@@ -1,0 +1,13 @@
+@if(enquiry) {
+<h2>Enquiry Details</h2>
+
+<p><b>Name:</b> {{ enquiry.customerName }}</p>
+<p><b>Email:</b> {{ enquiry.customerEmail }}</p>
+<p><b>Phone:</b> {{ enquiry.customerPhone }}</p>
+<p><b>Message:</b> {{ enquiry.message }}</p>
+<p><b>Status ID:</b> {{ enquiry.statusId }}</p>
+<p><b>Category ID:</b> {{ enquiry.categoryId }}</p>
+
+<button (click)="goToEdit()">Edit</button>
+<button (click)="goBack()">Back</button>
+}
