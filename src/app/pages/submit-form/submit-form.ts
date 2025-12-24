@@ -70,4 +70,9 @@ export class SubmitForm implements OnInit {
       }
     });
   }
+
+  /* CHECK IF FORM IS DIRTY */
+  isFormDirty(): boolean {
+    return !!(this.enquiry.customerName || this.enquiry.customerEmail || this.enquiry.message);
+  }
 }

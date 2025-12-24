@@ -18,11 +18,11 @@ export class EnquiryDetail implements OnInit {
   private cdr = inject(ChangeDetectorRef);
 
   ngOnInit() {
-    if (!this.auth.isAdmin()) {
-      alert('Access denied');
-      this.router.navigate(['/login']);
-      return;
-    }
+    // if (!this.auth.isAdmin()) {
+    //   alert('Access denied');
+    //   this.router.navigate(['/login']);
+    //   return;
+    // }
 
     this.route.params.subscribe((params) => {
       const id = params['id'];

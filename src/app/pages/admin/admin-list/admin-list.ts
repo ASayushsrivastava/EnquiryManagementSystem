@@ -33,11 +33,11 @@ export class AdminList implements OnInit {
   @Output() titleClicked = new EventEmitter<string>();
 
   ngOnInit() {
-    if (!this.auth.isAdmin()) {
-      alert('Access denied');
-      this.router.navigate(['/login']);
-      return;
-    }
+    // if (!this.auth.isAdmin()) {
+    //   alert('Access denied');
+    //   this.router.navigate(['/login']);
+    //   return;
+    // }
 
     this.loadEnquiries();
     this.loadStatuses();

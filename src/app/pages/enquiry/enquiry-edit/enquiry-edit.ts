@@ -24,12 +24,12 @@ export class EnquiryEdit implements OnInit {
   private masterService = inject(MasterService);
 
   ngOnInit() {
-    // 🔐 admin check
-    if (!this.auth.isAdmin()) {
-      alert('Access denied');
-      this.router.navigate(['/login']);
-      return;
-    }
+    // admin check
+    // if (!this.auth.isAdmin()) {
+    //   alert('Access denied');
+    //   this.router.navigate(['/login']);
+    //   return;
+    // }
 
     // load statuses for dropdown
     this.loadStatuses();
