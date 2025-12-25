@@ -1,40 +1,63 @@
-@if (enquiry) {
-<div class="edit-container">
-  <h2>Edit Enquiry</h2>
+@if (enquiry()) {
+<div class="max-w-3xl mx-auto bg-white rounded-xl shadow p-6">
+  <h2 class="text-xl font-semibold text-slate-800 mb-6">Edit Enquiry</h2>
 
-  <!-- READ ONLY INFO -->
-  <div class="readonly">
-    <p><b>Name:</b> {{ enquiry.customerName }}</p>
-    <p><b>Email:</b> {{ enquiry.customerEmail }}</p>
-    <p><b>Phone:</b> {{ enquiry.customerPhone }}</p>
-    <p><b>Message:</b> {{ enquiry.message }}</p>
+  <div class="mb-4 text-slate-700">
+    <p><b>Name:</b> {{ enquiry()!.customerName }}</p>
+    <p><b>Email:</b> {{ enquiry()!.customerEmail }}</p>
+    <p><b>Phone:</b> {{ enquiry()!.customerPhone }}</p>
+    <p><b>Message:</b> {{ enquiry()!.message }}</p>
   </div>
 
-  <!-- EDITABLE FIELDS -->
-  <div class="form-group">
-    <label>Status</label>
-    <select title="status" [(ngModel)]="enquiry.statusId">
-      @for (s of statuses; track s.statusId) {
-      <option [value]="s.statusId">
-        {{ s.statusName }}
-      </option>
-      }
-    </select>
+  <div class="space-y-4">
+    <div>
+      <label class="block text-sm font-medium text-slate-600 mb-1">Status</label>
+      <select
+        title="enquiry"
+        class="w-full border border-slate-300 rounded-lg px-3 py-2"
+        [ngModel]="enquiry()!.statusId"
+        (ngModelChange)="updateField('statusId', $event)"
+      >
+        @for (s of statuses(); track s.statusId) {
+        <option [value]="s.statusId">{{ s.statusName }}</option>
+        }
+      </select>
+    </div>
+
+    <div>
+      <label class="block text-sm font-medium text-slate-600 mb-1">Follow-up Date</label>
+      <input
+        type="datetime-local"
+        class="w-full border border-slate-300 rounded-lg px-3 py-2"
+        [ngModel]="enquiry()!.followUpDate"
+        (ngModelChange)="updateField('followUpDate', $event)"
+      />
+    </div>
+
+    <div>
+      <label class="block text-sm font-medium text-slate-600 mb-1">Feedback</label>
+      <textarea
+        rows="4"
+        class="w-full border border-slate-300 rounded-lg px-3 py-2"
+        [ngModel]="enquiry()!.feedback"
+        (ngModelChange)="updateField('feedback', $event)"
+      ></textarea>
+    </div>
   </div>
 
-  <div class="form-group">
-    <label>Follow-up Date</label>
-    <input type="datetime-local" [(ngModel)]="enquiry.followUpDate" />
-  </div>
-
-  <div class="form-group">
-    <label>Feedback</label>
-    <textarea rows="4" [(ngModel)]="enquiry.feedback"></textarea>
-  </div>
-
-  <div class="actions">
-    <button class="btn primary" (click)="updateEnquiry()">Save</button>
-    <button class="btn outline" (click)="cancel()">Cancel</button>
+  <div class="flex gap-3 mt-6">
+    <button
+      class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
+      (click)="updateEnquiry()"
+    >
+      Save
+    </button>
+    <button
+      class="px-4 py-2 border border-slate-300 text-slate-700 rounded-lg hover:bg-slate-50 transition"
+      (click)="cancel()"
+    >
+      Cancel
+    </button>
   </div>
 </div>
 }

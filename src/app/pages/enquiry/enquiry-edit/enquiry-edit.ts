@@ -1,7 +1,6 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
-import { ChangeDetectorRef } from '@angular/core';
 import { AuthService } from '../../../services/auth/authservice';
 import { Status } from '../../../models/status.model';
 import { Enquiry } from '../../../models/enquiry.model';
@@ -14,47 +13,41 @@ import { MasterService } from '../../../services/apis/masterservice';
   styleUrl: './enquiry-edit.css',
 })
 export class EnquiryEdit implements OnInit {
-  enquiry: Enquiry | null = null;
-  statuses: Status[] = [];
+  /* 🔹 SIGNAL STATE */
+  enquiry = signal<Enquiry | null>(null);
+  statuses = signal<Status[]>([]);
 
   private route = inject(ActivatedRoute);
   private router = inject(Router);
-  private cdr = inject(ChangeDetectorRef);
   private auth = inject(AuthService);
   private masterService = inject(MasterService);
 
   ngOnInit() {
-    // admin check
-    // if (!this.auth.isAdmin()) {
-    //   alert('Access denied');
-    //   this.router.navigate(['/login']);
-    //   return;
-    // }
-
-    // load statuses for dropdown
+    // Guard already handled by route, optional here
     this.loadStatuses();
 
-    // load enquiry by route param
     this.route.params.subscribe((params) => {
-      const id = params['id'];
+      const id = Number(params['id']);
       if (id) {
-        this.loadEnquiry(+id);
+        this.loadEnquiry(id);
       }
     });
   }
 
+  /* LOAD STATUSES */
+
   loadStatuses() {
     this.masterService.getStatuses().subscribe((list: Status[]) => {
-      this.statuses = list.filter((s) => s.isActive);
-      this.cdr.detectChanges();
+      this.statuses.set(list.filter((s) => s.isActive));
     });
   }
+
+  /* LOAD ENQUIRY */
 
   loadEnquiry(id: number) {
     this.masterService.getEnquiryById(id).subscribe((data) => {
       if (data) {
-        this.enquiry = data;
-        this.cdr.detectChanges();
+        this.enquiry.set(data);
       } else {
         alert('Enquiry not found');
         this.router.navigate(['/list/manage']);
@@ -62,13 +55,22 @@ export class EnquiryEdit implements OnInit {
     });
   }
 
-  updateEnquiry() {
-    if (!this.enquiry) return;
+  /* UPDATE FIELD (Signal-safe) */
 
-    this.masterService.updateEnquiry(this.enquiry.enquiryId, this.enquiry).subscribe((res) => {
+  updateField<K extends keyof Enquiry>(key: K, value: Enquiry[K]) {
+    this.enquiry.update((current) => (current ? { ...current, [key]: value } : current));
+  }
+
+  /* SAVE */
+
+  updateEnquiry() {
+    const current = this.enquiry();
+    if (!current) return;
+
+    this.masterService.updateEnquiry(current.enquiryId, current).subscribe((res) => {
       if (res.result) {
         alert('Enquiry updated successfully');
-        this.router.navigate(['/list/manage', this.enquiry!.enquiryId]);
+        this.router.navigate(['/list/manage', current.enquiryId]);
       } else {
         alert(res.message || 'Update failed');
       }
@@ -76,8 +78,9 @@ export class EnquiryEdit implements OnInit {
   }
 
   cancel() {
-    if (this.enquiry) {
-      this.router.navigate(['/list/manage', this.enquiry.enquiryId]);
+    const current = this.enquiry();
+    if (current) {
+      this.router.navigate(['/list/manage', current.enquiryId]);
     }
   }
 }

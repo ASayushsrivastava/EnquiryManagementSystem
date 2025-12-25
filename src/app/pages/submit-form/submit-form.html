@@ -1,71 +1,151 @@
-<div class="form-container">
-  <h2>Submit Enquiry</h2>
+<div class="min-h-screen bg-slate-100 flex justify-center items-start py-10">
+  <div class="w-full max-w-2xl bg-white rounded-xl shadow-lg p-8">
+    <h2 class="text-2xl font-semibold text-slate-800 mb-6 text-center">Submit Enquiry</h2>
 
-  <form (ngSubmit)="submitForm()">
-    <div class="form-group">
-      <label>Customer Name</label>
-      <input type="text" [(ngModel)]="enquiry.customerName" name="customerName" required />
-    </div>
+    <form (ngSubmit)="submitForm()" class="space-y-4">
+      <!-- Customer Name -->
+      <div>
+        <label class="block text-sm font-medium text-slate-600 mb-1"> Customer Name </label>
+        <input
+          type="text"
+          name="customerName"
+          class="w-full border border-slate-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          [ngModel]="enquiry().customerName"
+          (ngModelChange)="updateEnquiry('customerName', $event)"
+          required
+        />
+      </div>
 
-    <div class="form-group">
-      <label>Email</label>
-      <input type="email" [(ngModel)]="enquiry.customerEmail" name="customerEmail" required />
-    </div>
+      <!-- Email -->
+      <div>
+        <label class="block text-sm font-medium text-slate-600 mb-1"> Email </label>
+        <input
+          type="email"
+          name="customerEmail"
+          class="w-full border border-slate-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          [ngModel]="enquiry().customerEmail"
+          (ngModelChange)="updateEnquiry('customerEmail', $event)"
+          required
+        />
+      </div>
 
-    <div class="form-group">
-      <label>Phone</label>
-      <input type="text" [(ngModel)]="enquiry.customerPhone" name="customerPhone" />
-    </div>
+      <!-- Phone -->
+      <div>
+        <label class="block text-sm font-medium text-slate-600 mb-1"> Phone </label>
+        <input
+          type="text"
+          name="customerPhone"
+          class="w-full border border-slate-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          [ngModel]="enquiry().customerPhone"
+          (ngModelChange)="updateEnquiry('customerPhone', $event)"
+        />
+      </div>
 
-    <div class="form-group">
-      <label>Enquiry Type</label>
-      <input type="text" [(ngModel)]="enquiry.enquiryType" name="enquiryType" />
-    </div>
+      <!-- Enquiry Type -->
+      <div>
+        <label class="block text-sm font-medium text-slate-600 mb-1"> Enquiry Type </label>
+        <input
+          type="text"
+          name="enquiryType"
+          class="w-full border border-slate-300 rounded-lg px-3 py-2"
+          [ngModel]="enquiry().enquiryType"
+          (ngModelChange)="updateEnquiry('enquiryType', $event)"
+        />
+      </div>
 
-    <div class="form-group">
-      <label>Category</label>
-      <select title="category" [(ngModel)]="enquiry.categoryId" name="categoryId">
-        <option value="0">Select Category</option>
-        @for (cat of categories; track cat.categoryId) {
-        <option [value]="cat.categoryId">
-          {{ cat.categoryName }}
-        </option>
-        }
-      </select>
-    </div>
+      <!-- Category -->
+      <div>
+        <label class="block text-sm font-medium text-slate-600 mb-1"> Category </label>
+        <select
+          title="Category"
+          name="categoryId"
+          class="w-full border border-slate-300 rounded-lg px-3 py-2"
+          [ngModel]="enquiry().categoryId"
+          (ngModelChange)="updateEnquiry('categoryId', $event)"
+        >
+          <option value="0">Select Category</option>
+          @for (cat of categories(); track cat.categoryId) {
+          <option [value]="cat.categoryId">
+            {{ cat.categoryName }}
+          </option>
+          }
+        </select>
+      </div>
 
-    <div class="form-group">
-      <label>Status</label>
-      <select title="status" [(ngModel)]="enquiry.statusId" name="statusId">
-        <option value="0">Select Status</option>
-        @for (st of statuses; track st.statusId) {
-        <option [value]="st.statusId">
-          {{ st.statusName }}
-        </option>
-        }
-      </select>
-    </div>
+      <!-- Status -->
+      <div>
+        <label class="block text-sm font-medium text-slate-600 mb-1"> Status </label>
+        <select
+          title="Status"
+          name="statusId"
+          class="w-full border border-slate-300 rounded-lg px-3 py-2"
+          [ngModel]="enquiry().statusId"
+          (ngModelChange)="updateEnquiry('statusId', $event)"
+        >
+          <option value="0">Select Status</option>
+          @for (st of statuses(); track st.statusId) {
+          <option [value]="st.statusId">
+            {{ st.statusName }}
+          </option>
+          }
+        </select>
+      </div>
 
-    <div class="form-group">
-      <label>Message</label>
-      <textarea rows="3" [(ngModel)]="enquiry.message" name="message"></textarea>
-    </div>
+      <!-- Message -->
+      <div>
+        <label class="block text-sm font-medium text-slate-600 mb-1"> Message </label>
+        <textarea
+          rows="3"
+          name="message"
+          class="w-full border border-slate-300 rounded-lg px-3 py-2"
+          [ngModel]="enquiry().message"
+          (ngModelChange)="updateEnquiry('message', $event)"
+        ></textarea>
+      </div>
 
-    <div class="form-group">
-      <label>Follow-up Date</label>
-      <input type="datetime-local" [(ngModel)]="enquiry.followUpDate" name="followUpDate" />
-    </div>
+      <!-- Follow-up -->
+      <div>
+        <label class="block text-sm font-medium text-slate-600 mb-1"> Follow-up Date </label>
+        <input
+          type="datetime-local"
+          name="followUpDate"
+          class="w-full border border-slate-300 rounded-lg px-3 py-2"
+          [ngModel]="enquiry().followUpDate"
+          (ngModelChange)="updateEnquiry('followUpDate', $event)"
+        />
+      </div>
 
-    <div class="form-group checkbox">
-      <input type="checkbox" [(ngModel)]="enquiry.isConverted" name="isConverted" />
-      <label>Converted</label>
-    </div>
+      <!-- Converted -->
+      <div class="flex items-center gap-2">
+        <input
+          type="checkbox"
+          name="isConverted"
+          class="h-4 w-4 text-blue-600"
+          [ngModel]="enquiry().isConverted"
+          (ngModelChange)="updateEnquiry('isConverted', $event)"
+        />
+        <label class="text-sm text-slate-600">Converted</label>
+      </div>
 
-    <div class="form-group">
-      <label>Feedback</label>
-      <textarea rows="2" [(ngModel)]="enquiry.feedback" name="feedback"></textarea>
-    </div>
+      <!-- Feedback -->
+      <div>
+        <label class="block text-sm font-medium text-slate-600 mb-1"> Feedback </label>
+        <textarea
+          rows="2"
+          name="feedback"
+          class="w-full border border-slate-300 rounded-lg px-3 py-2"
+          [ngModel]="enquiry().feedback"
+          (ngModelChange)="updateEnquiry('feedback', $event)"
+        ></textarea>
+      </div>
 
-    <button type="submit" class="submit-btn">Submit Enquiry</button>
-  </form>
+      <!-- Submit -->
+      <button
+        type="submit"
+        class="w-full bg-blue-600 text-white py-2 rounded-lg font-medium hover:bg-blue-700 transition"
+      >
+        Submit Enquiry
+      </button>
+    </form>
+  </div>
 </div>

@@ -14,10 +14,10 @@ export class AdminDashboard {
 
   private router = inject(Router);
 
-  // @ViewChild(AdminList)
-  // adminList!: AdminList;
-
+  @ViewChild(AdminList)
   adminList!: AdminList;
+
+  // adminList!: AdminList;
 
   filterByStatus(statusId: number) {
     this.router.navigate(['/list/manage'], {

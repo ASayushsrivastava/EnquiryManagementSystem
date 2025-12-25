@@ -1,13 +1,31 @@
-@if(enquiry) {
-<h2>Enquiry Details</h2>
+@if (enquiry()) {
+<div class="max-w-3xl mx-auto bg-white rounded-xl shadow p-6">
+  <h2 class="text-xl font-semibold text-slate-800 mb-4">Enquiry Details</h2>
 
-<p><b>Name:</b> {{ enquiry.customerName }}</p>
-<p><b>Email:</b> {{ enquiry.customerEmail }}</p>
-<p><b>Phone:</b> {{ enquiry.customerPhone }}</p>
-<p><b>Message:</b> {{ enquiry.message }}</p>
-<p><b>Status ID:</b> {{ enquiry.statusId }}</p>
-<p><b>Category ID:</b> {{ enquiry.categoryId }}</p>
+  <div class="grid grid-cols-2 gap-4 text-slate-700">
+    <p><b>Name:</b> {{ enquiry()!.customerName }}</p>
+    <p><b>Email:</b> {{ enquiry()!.customerEmail }}</p>
+    <p><b>Phone:</b> {{ enquiry()!.customerPhone | phoneMask }}</p>
+    <p><b>Status:</b> {{ enquiry()!.statusId | statusLabel : statuses() }}</p>
+    <p class="col-span-2"><b>Message:</b> {{ enquiry()!.message }}</p>
+    <p><b>Follow-up:</b> {{ enquiry()!.followUpDate | dateTime }}</p>
+    <p><b>Category ID:</b> {{ enquiry()!.categoryId }}</p>
+  </div>
 
-<button (click)="goToEdit()">Edit</button>
-<button (click)="goBack()">Back</button>
+  <div class="flex gap-3 mt-6">
+    <button
+      class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
+      (click)="goToEdit()"
+    >
+      Edit
+    </button>
+
+    <button
+      class="px-4 py-2 border border-slate-300 text-slate-700 rounded-lg hover:bg-slate-50 transition"
+      (click)="goBack()"
+    >
+      Back
+    </button>
+  </div>
+</div>
 }

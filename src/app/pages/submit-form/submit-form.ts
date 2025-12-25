@@ -1,9 +1,10 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Enquiry } from '../../models/enquiry.model';
 import { Category } from '../../models/category.model';
 import { Status } from '../../models/status.model';
 import { MasterService } from '../../services/apis/masterservice';
+import { DateTimePipe } from '../../pipes/date-time.pipe';
 
 @Component({
   selector: 'app-submit-form',
@@ -13,7 +14,9 @@ import { MasterService } from '../../services/apis/masterservice';
   styleUrl: './submit-form.css',
 })
 export class SubmitForm implements OnInit {
-  enquiry: Enquiry = {
+  private masterService = inject(MasterService);
+
+  enquiry = signal<Enquiry>({
     enquiryId: 0,
     customerName: '',
     customerEmail: '',
@@ -26,12 +29,10 @@ export class SubmitForm implements OnInit {
     enquiryDate: '',
     followUpDate: '',
     feedback: '',
-  };
+  });
 
-  categories: Category[] = [];
-  statuses: Status[] = [];
-
-  private masterService = inject(MasterService);
+  categories = signal<Category[]>([]);
+  statuses = signal<Status[]>([]);
 
   ngOnInit(): void {
     this.setDefaultDates();
@@ -39,30 +40,32 @@ export class SubmitForm implements OnInit {
     this.loadStatuses();
   }
 
-  setDefaultDates() {
-    this.enquiry.enquiryDate = new Date().toISOString().substring(0, 16);
+  /* 🔹 SINGLE UPDATE METHOD */
+  updateEnquiry<K extends keyof Enquiry>(key: K, value: Enquiry[K]) {
+    this.enquiry.update((e) => ({
+      ...e,
+      [key]: value,
+    }));
   }
 
-  /* LOAD CATEGORIES */
+  setDefaultDates() {
+    this.updateEnquiry('enquiryDate', new Date().toISOString().substring(0, 16));
+  }
 
   loadCategories() {
     this.masterService.getCategories().subscribe((list: Category[]) => {
-      this.categories = list.filter((c) => c.isActive);
+      this.categories.set(list.filter((c) => c.isActive));
     });
   }
-
-  /* LOAD STATUSES */
 
   loadStatuses() {
     this.masterService.getStatuses().subscribe((list: Status[]) => {
-      this.statuses = list.filter((s) => s.isActive);
+      this.statuses.set(list.filter((s) => s.isActive));
     });
   }
 
-  /* SUBMIT FORM */
-
   submitForm() {
-    this.masterService.createEnquiry(this.enquiry).subscribe((res) => {
+    this.masterService.createEnquiry(this.enquiry()).subscribe((res) => {
       if (res.result) {
         alert('Enquiry submitted successfully');
       } else {
@@ -71,8 +74,8 @@ export class SubmitForm implements OnInit {
     });
   }
 
-  /* CHECK IF FORM IS DIRTY */
   isFormDirty(): boolean {
-    return !!(this.enquiry.customerName || this.enquiry.customerEmail || this.enquiry.message);
+    const e = this.enquiry();
+    return !!(e.customerName || e.customerEmail || e.message);
   }
 }

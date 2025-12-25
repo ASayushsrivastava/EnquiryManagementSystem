@@ -1,13 +1,34 @@
-<h2>Login</h2>
+<div class="min-h-screen bg-slate-100 flex items-center justify-center">
+  <div class="w-full max-w-sm bg-white rounded-xl shadow-lg p-6">
+    <h2 class="text-2xl font-semibold text-slate-800 mb-6 text-center">Login</h2>
 
-<input [(ngModel)]="username" placeholder="username" />
-<input [(ngModel)]="password" placeholder="password" type="password" />
+    <div class="space-y-4">
+      <input
+        class="w-full border border-slate-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500"
+        [(ngModel)]="username"
+        placeholder="Username"
+      />
 
-<button (click)="login()">Login</button>
+      <input
+        class="w-full border border-slate-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500"
+        [(ngModel)]="password"
+        type="password"
+        placeholder="Password"
+      />
 
-<p>{{ error }}</p>
+      <button
+        class="w-full bg-blue-600 text-white py-2 rounded-lg font-medium hover:bg-blue-700 transition"
+        (click)="login()"
+      >
+        Login
+      </button>
 
-<p>
-  Admin → admin/admin <br />
-  User → user/user
-</p>
+      <p class="text-red-500 text-sm text-center">{{ error }}</p>
+
+      <p class="text-xs text-slate-500 text-center mt-4">
+        Admin → admin / admin <br />
+        User → user / user
+      </p>
+    </div>
+  </div>
+</div>

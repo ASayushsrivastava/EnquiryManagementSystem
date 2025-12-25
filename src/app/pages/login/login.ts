@@ -7,6 +7,7 @@ import { AuthService } from '../../services/auth/authservice';
   standalone: true,
   imports: [FormsModule],
   templateUrl: './login.html',
+  styleUrl: './login.css',
 })
 export class Login {
   username = '';

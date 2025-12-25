@@ -1,36 +1,45 @@
-<h2>Admin Enquiry List</h2>
+<div class="bg-white rounded-xl shadow p-6">
+  <h2 class="text-xl font-semibold text-slate-800 mb-4">Admin Enquiry List</h2>
 
-<h3 (click)="notifyParent()">
-  {{ pageTitle }}
-</h3>
+  <h3 class="text-blue-600 cursor-pointer mb-4" (click)="notifyParent()">
+    {{ pageTitle }}
+  </h3>
 
-@if(selectedStatusId) {
-<p>Current Filter Status ID: {{ selectedStatusId }}</p>
-}
+  <div class="mb-4">
+    <label class="text-sm text-slate-600 mr-2">Filter by Status</label>
+    <select
+      title="filter"
+      class="border border-slate-300 rounded-lg px-3 py-2"
+      (change)="onStatusFilter($event)"
+    >
+      <option value="">All</option>
+      @for (s of statuses(); track s.statusId) {
+      <option [value]="s.statusId">{{ s.statusName }}</option>
+      }
+    </select>
+  </div>
 
-<label>Filter by Status</label>
-<select title="filter" (change)="onStatusFilter($event)">
-  <option value="">All</option>
-  @for (s of statuses; track s.statusId) {
-  <option [value]="s.statusId">{{ s.statusName }}</option>
-  }
-</select>
+  <table class="w-full border border-slate-200 rounded-lg overflow-hidden">
+    <thead class="bg-slate-100 text-slate-700">
+      <tr>
+        <th class="text-left px-4 py-2">Name</th>
+        <th class="text-left px-4 py-2">Email</th>
+        <th class="text-left px-4 py-2">Action</th>
+      </tr>
+    </thead>
 
-<table border="1" cellpadding="6">
-  <tr>
-    <th>Name</th>
-    <th>Email</th>
-    <th>Action</th>
-  </tr>
-
-  @for (e of enquiries; track e.enquiryId) {
-  <tr>
-    <td>{{ e.customerName }}</td>
-    <td>{{ e.customerEmail }}</td>
-
-    <td><button (click)="openEnquiry(e.enquiryId)">View</button></td>
-  </tr>
-  }
-</table>
-
-<router-outlet></router-outlet>
+    <tbody>
+      @for (e of enquiries(); track e.enquiryId) {
+      <tr class="border-t">
+        <td class="px-4 py-2">{{ e.customerName }}</td>
+        <td class="px-4 py-2">{{ e.customerEmail | maskEmail }}</td>
+        <td class="px-4 py-2">
+          <button class="text-blue-600 hover:underline" (click)="openEnquiry(e.enquiryId)">
+            View
+          </button>
+        </td>
+      </tr>
+      }
+    </tbody>
+  </table>
+</div>
